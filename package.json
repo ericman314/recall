@@ -1,0 +1,15 @@
+{
+  "name": "recall",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "build": "npm --workspace @recall/frontend run build",
+    "start": "npm --workspace @recall/backend run start",
+    "dev:backend": "npm --workspace @recall/backend run dev",
+    "dev:frontend": "npm --workspace @recall/frontend run dev"
+  }
+}

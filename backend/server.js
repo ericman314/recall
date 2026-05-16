@@ -23,6 +23,12 @@ app.get("/api/health", async (req, res) => {
   res.json({ ok: true })
 })
 
+const frontendDist = resolve(__dirname, "../frontend/dist")
+app.use(express.static(frontendDist))
+app.use((req, res) => {
+  res.sendFile(resolve(frontendDist, "index.html"))
+})
+
 app.listen(config.port, () => {
   console.log(`Backend listening on port ${config.port}`)
 })
