@@ -1,14 +1,21 @@
 import express from "express"
 import mysql from "mysql2/promise"
+import { readFileSync } from "node:fs"
+import { fileURLToPath } from "node:url"
+import { dirname, resolve } from "node:path"
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const config = JSON.parse(readFileSync(resolve(__dirname, "config.json"), "utf8"))
 
 const app = express()
 app.use(express.json())
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+  host: config.db.host,
+  port: config.db.port,
+  user: config.db.user,
+  password: config.db.password,
+  database: config.db.database
 })
 
 app.get("/api/health", async (req, res) => {
@@ -16,6 +23,6 @@ app.get("/api/health", async (req, res) => {
   res.json({ ok: true })
 })
 
-app.listen(process.env.PORT, () => {
-  console.log(`Backend listening on port ${process.env.PORT}`)
+app.listen(config.port, () => {
+  console.log(`Backend listening on port ${config.port}`)
 })
